@@ -5,3 +5,8 @@ export type BaseWSType<T> = {
   data: T;
   id: typeof ws_id;
 };
+
+export type Player = {
+  name: string;
+  password: string;
+};

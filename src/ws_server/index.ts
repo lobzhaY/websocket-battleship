@@ -1,3 +1,4 @@
+import { handleRoutesMessage } from '../routes';
 import { WebSocket } from 'ws';
 
 export const createWSServer = (port: number) => {
@@ -9,8 +10,23 @@ export const createWSServer = (port: number) => {
     console.log('New client connected');
 
     ws.on('message', (message) => {
+      let parsedMessage;
+
       try {
-        console.log(message);
+        parsedMessage = JSON.parse(message.toString());
+      } catch (e) {
+        console.error('Failed to parse message as JSON:', message);
+        return;
+      }
+
+      try {
+        console.log(parsedMessage);
+        // outputLogs
+        const response = handleRoutesMessage(parsedMessage, ws, wsServer);
+        /* if (response) {
+          ws.send(JSON.stringify(response));
+          console.log('📤 Response:', response);
+        } */
       } catch (err) {
         console.error('Failed to process message:', err.message);
       }
@@ -18,6 +34,14 @@ export const createWSServer = (port: number) => {
 
     ws.on('close', () => {
       console.log('Client disconnected');
+    });
+  });
+
+  process.on('SIGINT', () => {
+    console.log('Shutting down server...');
+    wsServer.close(() => {
+      console.log('WebSocket server closed');
+      process.exit(0);
     });
   });
 };

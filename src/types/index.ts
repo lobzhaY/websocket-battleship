@@ -1,1 +1,1 @@
-export { BaseWSType } from './db.types';
+export { BaseWSType, Player } from './db.types';

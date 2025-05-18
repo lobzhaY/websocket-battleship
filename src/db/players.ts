@@ -1,6 +1,3 @@
-import type { BaseWSType } from '../types';
+import type { Player } from '../types';
 
-export const players: Map<string, BaseWSType<unknown>> = new Map<
-  string,
-  BaseWSType<unknown>
->([]);
+export const players: Map<string, Player> = new Map<string, Player>([]);
