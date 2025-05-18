@@ -1,6 +1,13 @@
-import { createRoom, getPlayerBySocket, getRooms } from '../db';
+import {
+  addUserToRoom,
+  createRoom,
+  getPlayerBySocket,
+  getRooms,
+  getRoomById,
+} from '../db';
 import { ws_id, WS_TYPES } from '../constants';
 import { randomUUID } from 'node:crypto';
+import { gameController } from './game-controller';
 
 export const updateRoomsController = (ws: WebSocket) => {
   const rooms = getRooms();
@@ -31,4 +38,21 @@ export const createRoomController = (data: string, ws: WebSocket) => {
   updateRoomsController(ws);
 
   console.log(`Room "${roomId}" created by player "${user.playerId}"`);
+};
+
+export const addUserToRoomController = (data: string, ws: WebSocket) => {
+  console.log('addUserToRoom');
+  const { indexRoom } = JSON.parse(data);
+  const { roomUsers } = getRoomById(indexRoom);
+  const user = getPlayerBySocket(ws);
+
+  if (roomUsers.length >= 2) {
+    console.log('Too match users');
+    return;
+  }
+
+  addUserToRoom(indexRoom, user?.playerId);
+
+  updateRoomsController(ws);
+  gameController(ws);
 };

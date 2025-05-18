@@ -11,4 +11,8 @@ export {
   getPlayerBySocket,
   getConnections,
   addToConnections,
+  addUserToRoom,
+  getRoomById,
+  deleteRoomById,
+  getPlayerByRoomId,
 } from './services';

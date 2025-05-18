@@ -8,6 +8,14 @@ export const getRooms = (): Room[] => {
   );
 };
 
+export const getRoomById = (roomId: string): Room => {
+  return rooms.get(roomId) as Room;
+};
+
+export const deleteRoomById = (roomId: string) => {
+  return rooms.delete(roomId);
+};
+
 export const createRoom = (roomId: string, playerId: string | undefined) => {
   const currentUser = getUserById(playerId!);
   if (!currentUser) {
@@ -28,6 +36,17 @@ export const createRoom = (roomId: string, playerId: string | undefined) => {
   rooms.set(roomId, room);
 };
 
-/* export const addUserToRoom = (indexRoom: string, ) => {
-
-}; */
+export const addUserToRoom = (
+  indexRoom: string,
+  playerId: string | undefined
+) => {
+   const currentUser = getUserById(playerId!);
+  if (!currentUser) {
+    console.log(`User with ID ${playerId} not found`);
+    return;
+  }
+  getRoomById(indexRoom).roomUsers.push({
+    name: currentUser.name,
+    index: playerId as string,
+  });
+};
