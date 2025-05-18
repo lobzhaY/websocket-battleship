@@ -5,4 +5,8 @@ export {
   createRoomController,
   addUserToRoomController,
 } from './rooms-controller';
-export { gameController } from './game-controller';
+export {
+  createGameController,
+  addShipsController,
+  startGameController,
+} from './game-controller';

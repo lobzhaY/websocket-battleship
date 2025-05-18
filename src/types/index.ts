@@ -1,1 +1,9 @@
-export { BaseWSType, Player, Winner, Room, PlayerConnection } from './db.types';
+export {
+  BaseWSType,
+  Player,
+  Winner,
+  Room,
+  PlayerConnection,
+  Ship,
+  Game,
+} from './db.types';

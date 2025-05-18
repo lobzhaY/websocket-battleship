@@ -15,4 +15,6 @@ export {
   getRoomById,
   deleteRoomById,
   getPlayerByRoomId,
+  getGameById,
+  setNewGame,
 } from './services';

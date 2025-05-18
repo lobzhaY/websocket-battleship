@@ -7,7 +7,7 @@ import {
 } from '../db';
 import { ws_id, WS_TYPES } from '../constants';
 import { randomUUID } from 'node:crypto';
-import { gameController } from './game-controller';
+import { createGameController } from './game-controller';
 
 export const updateRoomsController = (ws: WebSocket) => {
   const rooms = getRooms();
@@ -54,5 +54,5 @@ export const addUserToRoomController = (data: string, ws: WebSocket) => {
   addUserToRoom(indexRoom, user?.playerId);
 
   updateRoomsController(ws);
-  gameController(ws);
+  createGameController(ws);
 };

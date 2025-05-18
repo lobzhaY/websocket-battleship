@@ -29,3 +29,12 @@ export type Room = {
     index: number | string;
   }[];
 };
+
+export type Ship = {
+  position: { x: number; y: number };
+  direction: boolean;
+  length: number;
+  type: 'small' | 'medium' | 'large' | 'huge';
+};
+
+export type Game = Record<string, { ships?: Ship[] }>;
