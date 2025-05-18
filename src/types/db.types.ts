@@ -6,6 +6,12 @@ export type BaseWSType<T> = {
   id: typeof ws_id;
 };
 
+export type PlayerConnection = {
+  ws: WebSocket;
+  playerId: string;
+  roomId?: string;
+};
+
 export type Player = {
   name: string;
   password: string;
@@ -18,10 +24,8 @@ export type Winner = {
 
 export type Room = {
   roomId: number | string;
-  roomUsers: [
-    {
-      name: string;
-      index: number | string;
-    },
-  ];
+  roomUsers: {
+    name: string;
+    index: number | string;
+  }[];
 };

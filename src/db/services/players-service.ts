@@ -7,3 +7,7 @@ export const registerPlayer = (
 ) => {
   players.set(indexKey, { name, password });
 };
+
+export const getUserById = (id: string): Player | undefined => {
+  return players.get(id);
+};

@@ -1,4 +1,5 @@
 import {
+  createRoomController,
   registerPlayerController,
   updateRoomsController,
   updateWinnersController,
@@ -12,4 +13,5 @@ export const ROUTERS_CONTROLLERS: Record<
   [WS_TYPES.REG]: registerPlayerController,
   [WS_TYPES.UPDATE_WINNERS]: updateWinnersController,
   [WS_TYPES.UPDATE_ROOM]: updateRoomsController,
+  [WS_TYPES.CREATE_ROOM]: createRoomController,
 };

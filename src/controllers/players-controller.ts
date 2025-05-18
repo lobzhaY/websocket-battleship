@@ -1,5 +1,5 @@
 import { ws_id, WS_TYPES } from '../constants';
-import { registerPlayer } from '../db';
+import { addToConnections, registerPlayer } from '../db';
 import { randomUUID } from 'node:crypto';
 import { updateWinnersController } from './winners-controller';
 import { updateRoomsController } from './rooms-controller';
@@ -25,16 +25,18 @@ export const registerPlayerController = (data: string, ws: WebSocket) => {
     return;
   } */
 
-  const playersId = randomUUID();
+  const playerId = randomUUID();
 
-  registerPlayer(playersId, { name, password });
+  registerPlayer(playerId, { name, password });
+
+  addToConnections({ ws, playerId });
 
   ws.send(
     JSON.stringify({
       type: WS_TYPES.REG,
       data: JSON.stringify({
         name: name,
-        index: playersId,
+        index: playerId,
         error: false,
         errorText: '',
       }),
