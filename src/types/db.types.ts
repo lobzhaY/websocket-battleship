@@ -10,3 +10,18 @@ export type Player = {
   name: string;
   password: string;
 };
+
+export type Winner = {
+  name: string;
+  wins: number;
+};
+
+export type Room = {
+  roomId: number | string;
+  roomUsers: [
+    {
+      name: string;
+      index: number | string;
+    },
+  ];
+};

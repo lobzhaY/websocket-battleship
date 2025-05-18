@@ -1,6 +1,8 @@
 import { ws_id, WS_TYPES } from '../constants';
 import { registerPlayer } from '../db';
 import { randomUUID } from 'node:crypto';
+import { updateWinnersController } from './winners-controller';
+import { updateRoomsController } from './rooms-controller';
 
 export const registerPlayerController = (data: string, ws: WebSocket) => {
   console.log('registerPlayerController');
@@ -41,4 +43,7 @@ export const registerPlayerController = (data: string, ws: WebSocket) => {
   );
 
   console.log(`Player "${name}" registered`);
+
+  updateRoomsController(ws);
+  updateWinnersController(ws);
 };
