@@ -1,5 +1,6 @@
 import { games } from '../games';
 import type { Game, Ship } from '../../types';
+import { BOT_PREFIX } from '../../constants';
 
 export const getGameById = (id: string): Game | undefined => {
   return games.get(id);
@@ -13,12 +14,24 @@ export const setNewGame = (
   const playersGame = {
     [indexPlayer]: {
       ships: [],
+      board: [],
     },
   };
   games.set(idGame, {
     players: playersGame,
     currentPlayerId: currentPlayerId ?? '',
   });
+};
+
+export const changeCurrentPlayer = (gameId: string) => {
+  const currentGame = getGameById(gameId);
+  const usersGameId = Object.keys(currentGame!.players);
+
+  const newCurrentPlayerId = usersGameId.find(
+    (id) => id !== currentGame?.currentPlayerId
+  );
+
+  currentGame!.currentPlayerId = newCurrentPlayerId as string;
 };
 
 export const setShips = (
@@ -33,7 +46,10 @@ export const setShips = (
     ...currentGame,
     players: {
       ...currentGame?.players,
-      [indexPlayer]: newShips,
-    }
-  })
+      [indexPlayer]: {
+        ships: newShips,
+        board: [],
+      },
+    },
+  });
 };

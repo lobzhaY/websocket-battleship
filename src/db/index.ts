@@ -17,4 +17,5 @@ export {
   getPlayerByRoomId,
   getGameById,
   setNewGame,
+  changeCurrentPlayer,
 } from './services';

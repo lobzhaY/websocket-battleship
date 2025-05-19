@@ -11,3 +11,4 @@ export {
   sendTurn,
 } from './game-controller';
 export { startSinglePlayController } from './single-play-controller';
+export { setUserAttack, setRandomAttack } from './attack-controller';

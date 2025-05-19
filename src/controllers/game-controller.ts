@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { BOT_PREFIX, ws_id, WS_TYPES } from '../constants';
 import { getGameById, setNewGame } from '../db';
+import { generateUserBoard } from '../utils';
 
 export const createGameController = (ws: WebSocket) => {
   const idGame = randomUUID();
@@ -41,20 +42,19 @@ export const addShipsController = (data: string, ws: WebSocket) => {
 
   const currentGame = getGameById(gameId);
 
-    console.log(currentGame, gameId);
-
   if (!currentGame) {
     console.log('Current game absent');
     return;
   }
 
   const indexCurrentPlayer = Object.keys(currentGame.players)[0];
-  currentGame.players[indexPlayer] = { ships };
+  const board = generateUserBoard(ships);
+  console.log('board', board);
+  currentGame.players[indexPlayer] = { ships, board };
 
-  if (Object.keys(currentGame).length === 2) {
-    Object.keys(currentGame).forEach((userGameId) => {
+  if (Object.keys(currentGame.players).length === 2) {
+    Object.keys(currentGame.players).forEach((userGameId) => {
       const isBot = userGameId.startsWith(BOT_PREFIX);
-
       if (isBot) {
         return;
       }

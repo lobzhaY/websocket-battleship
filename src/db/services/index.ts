@@ -13,4 +13,9 @@ export {
   addToConnections,
   getPlayerByRoomId,
 } from './connections-service';
-export { getGameById, setNewGame } from './game-service';
+export {
+  getGameById,
+  setNewGame,
+  setShips,
+  changeCurrentPlayer,
+} from './game-service';

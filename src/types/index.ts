@@ -6,4 +6,5 @@ export {
   PlayerConnection,
   Ship,
   Game,
+  AttackStatus,
 } from './db.types';

@@ -50,11 +50,11 @@ const placeOnBoard = (
   for (let i = 0; i < len; i++) {
     const xi = dir ? x + i : x;
     const yi = dir ? y : y + i;
-    board[yi]![xi] = 1;
+    board[xi]![yi] = 1;
   }
 };
 
-export const generateRandomShips = (): Ship[] => {
+export const generateRandomShips = (): { ships: Ship[]; board: number[][] } => {
   const ships: Ship[] = [];
   const board = createEmptyBoard();
 
@@ -81,5 +81,18 @@ export const generateRandomShips = (): Ship[] => {
     }
   }
 
-  return ships;
+  return {
+    ships,
+    board,
+  };
+};
+
+export const generateUserBoard = (ships: Ship[]): number[][] => {
+  console.log('generateUserBoard');
+  const board = createEmptyBoard();
+  for (const { position, direction, length } of ships) {
+    const { x, y } = position;
+    placeOnBoard(board, x, y, direction, length);
+  }
+  return board;
 };

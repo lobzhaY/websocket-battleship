@@ -16,10 +16,11 @@ export const startSinglePlayController = (data: string, ws: WebSocket) => {
   setNewGame(gameId, userPlayerId, userPlayerId);
 
   const currentGame = getGameById(gameId);
-  const botRandomShips = generateRandomShips();
+  const { ships: botRandomShips, board } = generateRandomShips();
 
   (currentGame as Game).players[botPlayerId] = {
     ships: botRandomShips,
+    board
   };
 
   ws.send(

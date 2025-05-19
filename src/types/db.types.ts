@@ -38,6 +38,8 @@ export type Ship = {
 };
 
 export type Game = {
-  players: Record<string, { ships?: Ship[] }>;
+  players: Record<string, { ships: Ship[]; board: number[][] }>;
   currentPlayerId: string;
 };
+
+export type AttackStatus = 'miss' | 'shot' | 'killed';
