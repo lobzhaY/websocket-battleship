@@ -1,4 +1,4 @@
-import { updateRoomsController } from 'controllers';
+import { updateRoomsController } from '../controllers';
 import { deleteConnection, deleteRooms, getPlayerBySocket } from '../db';
 import { handleRoutesMessage } from '../routes';
 import { WebSocket } from 'ws';
