@@ -1,3 +1,5 @@
+import { updateRoomsController } from 'controllers';
+import { deleteConnection, deleteRooms, getPlayerBySocket } from '../db';
 import { handleRoutesMessage } from '../routes';
 import { WebSocket } from 'ws';
 
@@ -27,7 +29,11 @@ export const createWSServer = (port: number) => {
     });
 
     ws.on('close', () => {
-      console.log('Client disconnected');
+      const currentUser = getPlayerBySocket(ws);
+      deleteConnection(currentUser!.playerId);
+      deleteRooms(currentUser!.roomId);
+      updateRoomsController(ws);
+      console.log('Client disconnected', currentUser!.playerId);
     });
   });
 

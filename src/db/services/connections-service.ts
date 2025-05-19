@@ -21,3 +21,7 @@ export const getPlayerByRoomId = (
 export const addToConnections = (connection: PlayerConnection): void => {
   connections.push(connection);
 };
+
+export const deleteConnection = (clientId: string) => {
+  connections.filter((connection) => connection.playerId !== clientId);
+};

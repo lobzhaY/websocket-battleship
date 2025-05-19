@@ -10,6 +10,7 @@ import {
   checkIsGameOver,
   getRandomAttack,
   makeBotAttack,
+  outputLogs,
   processAttack,
 } from '../utils';
 import { sendTurn } from './game-controller';
@@ -31,6 +32,7 @@ export const feedbackAttack = (
       id: ws_id,
     })
   );
+  outputLogs({ command: WS_TYPES.ATTACK, result: ship });
 };
 
 export const setUserAttack = (ws: WebSocket, data: string | undefined) => {
@@ -80,7 +82,10 @@ export const setUserAttack = (ws: WebSocket, data: string | undefined) => {
             id: ws_id,
           })
         );
-
+        outputLogs({
+          command: WS_TYPES.FINISH,
+          result: { winPlayer: player!.playerId },
+        });
         updateWinnersController(ws);
       }
     }
@@ -138,6 +143,10 @@ export const setRandomAttack = (ws: WebSocket, data: string | undefined) => {
             id: ws_id,
           })
         );
+        outputLogs({
+          command: WS_TYPES.FINISH,
+          result: { winPlayer: player!.playerId },
+        });
         updateWinnersController(ws);
       }
     }

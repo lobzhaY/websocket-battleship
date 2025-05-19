@@ -6,12 +6,14 @@ export {
   addUserToRoom,
   getRoomById,
   deleteRoomById,
+  deleteRooms,
 } from './rooms-service';
 export {
   getPlayerBySocket,
   getConnections,
   addToConnections,
   getPlayerByRoomId,
+  deleteConnection,
 } from './connections-service';
 export {
   getGameById,

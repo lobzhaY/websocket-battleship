@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { BOT_PREFIX, ws_id, WS_TYPES } from '../constants';
 import { getGameById, setNewGame } from '../db';
-import { generateUserBoard } from '../utils';
+import { generateUserBoard, outputLogs } from '../utils';
 import { WebSocket } from 'ws';
 
 export const createGameController = (ws: WebSocket) => {
@@ -20,12 +20,14 @@ export const createGameController = (ws: WebSocket) => {
       id: ws_id,
     })
   );
+  outputLogs({
+    command: WS_TYPES.CREATE_GAME,
+    result: { idGame: idGame, idPlayer: gamePlayerId },
+  });
 };
 
 export const sendTurn = (ws: WebSocket, gameId: string | undefined) => {
   const currentGame = getGameById(gameId!);
-
-  console.log('sendTurn', gameId, currentGame);
 
   ws.send(
     JSON.stringify({
@@ -34,11 +36,14 @@ export const sendTurn = (ws: WebSocket, gameId: string | undefined) => {
       id: ws_id,
     })
   );
+
+  outputLogs({
+    command: WS_TYPES.TURN,
+    result: { currentPlayer: currentGame!.currentPlayerId },
+  });
 };
 
 export const addShipsController = (ws: WebSocket, data: string | undefined) => {
-  console.log('addShipsController', data);
-
   const { gameId, indexPlayer, ships } = JSON.parse(data!);
 
   const currentGame = getGameById(gameId);
@@ -50,7 +55,7 @@ export const addShipsController = (ws: WebSocket, data: string | undefined) => {
 
   const indexCurrentPlayer = Object.keys(currentGame.players)[0];
   const board = generateUserBoard(ships);
-  console.log('board', board);
+
   currentGame.players[indexPlayer] = { ships, board };
 
   if (Object.keys(currentGame.players).length === 2) {
@@ -72,6 +77,11 @@ export const addShipsController = (ws: WebSocket, data: string | undefined) => {
           id: ws_id,
         })
       );
+
+      outputLogs({
+        command: WS_TYPES.START_GAME,
+        result: startGamePosition,
+      });
     });
 
     sendTurn(ws, gameId);

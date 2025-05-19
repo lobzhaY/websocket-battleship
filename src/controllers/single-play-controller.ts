@@ -2,12 +2,10 @@ import { randomUUID } from 'node:crypto';
 import { getGameById, setNewGame } from '../db';
 import { Game } from '../types';
 import { BOT_PREFIX, ws_id, WS_TYPES } from '../constants';
-import { generateRandomShips } from '../utils';
+import { generateRandomShips, outputLogs } from '../utils';
 import { WebSocket } from 'ws';
 
 export const startSinglePlayController = (ws: WebSocket) => {
-  console.log('startSinglePlayController');
-
   const gameId = randomUUID();
   const userPlayerId = randomUUID();
   const botPlayerId = `${BOT_PREFIX}-${randomUUID()}`;
@@ -34,4 +32,9 @@ export const startSinglePlayController = (ws: WebSocket) => {
       id: ws_id,
     })
   );
+
+  outputLogs({
+    command: WS_TYPES.CREATE_GAME,
+    result: { idGame: gameId, idPlayer: userPlayerId },
+  });
 };

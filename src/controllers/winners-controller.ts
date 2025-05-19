@@ -1,6 +1,7 @@
 import { getWinners } from '../db';
 import { ws_id, WS_TYPES } from '../constants';
 import { WebSocket } from 'ws';
+import { outputLogs } from '../utils';
 
 export const updateWinnersController = (ws: WebSocket) => {
   const winners = getWinners();
@@ -13,5 +14,8 @@ export const updateWinnersController = (ws: WebSocket) => {
     })
   );
 
-  console.log(`Winners update`);
+  outputLogs({
+    command: WS_TYPES.UPDATE_WINNERS,
+    result: winners,
+  });
 };

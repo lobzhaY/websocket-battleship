@@ -19,4 +19,6 @@ export {
   setNewGame,
   changeCurrentPlayer,
   updateWinners,
+  deleteConnection,
+  deleteRooms,
 } from './services';

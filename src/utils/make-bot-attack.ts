@@ -9,6 +9,7 @@ import {
 } from '../db';
 import { checkIsGameOver } from './check-is-game-over';
 import { getRandomAttack } from './get-random-attack';
+import { outputLogs } from './output-logs';
 import { processAttack } from './process-attack';
 import { WebSocket } from 'ws';
 
@@ -56,6 +57,10 @@ export const makeBotAttack = async (
           })
         );
 
+        outputLogs({
+          command: WS_TYPES.FINISH,
+          result: { winPlayer: player!.playerId },
+        });
         updateWinnersController(ws);
       }
     }

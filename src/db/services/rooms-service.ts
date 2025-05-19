@@ -50,3 +50,7 @@ export const addUserToRoom = (
     index: playerId as string,
   });
 };
+
+export const deleteRooms = (roomId: string | undefined) => {
+  rooms.delete(roomId!);
+};
