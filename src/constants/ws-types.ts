@@ -9,8 +9,11 @@ export enum WS_TYPES {
   START_GAME = 'start_game',
   // ATTACK = 'attack',
   // RANDOM_ATTACK = 'randomAttack',
-  // TURN = 'turn',
+  TURN = 'turn',
   // FINISH = 'finish',
+  SINGLE_PLAY = 'single_play',
 }
 
 export const ws_id = 0 as const;
+
+export const BOT_PREFIX = 'bot';

@@ -8,5 +8,6 @@ export {
 export {
   createGameController,
   addShipsController,
-  startGameController,
+  sendTurn,
 } from './game-controller';
+export { startSinglePlayController } from './single-play-controller';

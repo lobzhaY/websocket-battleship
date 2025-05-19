@@ -37,4 +37,7 @@ export type Ship = {
   type: 'small' | 'medium' | 'large' | 'huge';
 };
 
-export type Game = Record<string, { ships?: Ship[] }>;
+export type Game = {
+  players: Record<string, { ships?: Ship[] }>;
+  currentPlayerId: string;
+};
