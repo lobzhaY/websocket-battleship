@@ -3,10 +3,14 @@ import { addToConnections, registerPlayer } from '../db';
 import { randomUUID } from 'node:crypto';
 import { updateWinnersController } from './winners-controller';
 import { updateRoomsController } from './rooms-controller';
+import { WebSocket } from 'ws';
 
-export const registerPlayerController = (data: string, ws: WebSocket) => {
+export const registerPlayerController = (
+  ws: WebSocket,
+  data: string | undefined
+) => {
   console.log('registerPlayerController');
-  const { name, password } = JSON.parse(data);
+  const { name, password } = JSON.parse(data!);
 
   /* 
   !Нужно проверить, существует ли пользователь в бд!

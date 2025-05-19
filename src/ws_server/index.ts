@@ -14,21 +14,15 @@ export const createWSServer = (port: number) => {
 
       try {
         parsedMessage = JSON.parse(message.toString());
-      } catch (e) {
+      } catch {
         console.error('Failed to parse message as JSON:', message);
         return;
       }
 
       try {
-        console.log(parsedMessage);
-        // outputLogs
-        const response = handleRoutesMessage(parsedMessage, ws, wsServer);
-        /* if (response) {
-          ws.send(JSON.stringify(response));
-          console.log('📤 Response:', response);
-        } */
-      } catch (err) {
-        console.error('Failed to process message:', err.message);
+        handleRoutesMessage(parsedMessage, ws);
+      } catch {
+        console.error('Failed to process message:', parsedMessage);
       }
     });
 

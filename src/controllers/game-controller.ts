@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { BOT_PREFIX, ws_id, WS_TYPES } from '../constants';
 import { getGameById, setNewGame } from '../db';
 import { generateUserBoard } from '../utils';
+import { WebSocket } from 'ws';
 
 export const createGameController = (ws: WebSocket) => {
   const idGame = randomUUID();
@@ -21,8 +22,8 @@ export const createGameController = (ws: WebSocket) => {
   );
 };
 
-export const sendTurn = (gameId: string, ws: WebSocket) => {
-  const currentGame = getGameById(gameId);
+export const sendTurn = (ws: WebSocket, gameId: string | undefined) => {
+  const currentGame = getGameById(gameId!);
 
   console.log('sendTurn', gameId, currentGame);
 
@@ -35,10 +36,10 @@ export const sendTurn = (gameId: string, ws: WebSocket) => {
   );
 };
 
-export const addShipsController = (data: string, ws: WebSocket) => {
+export const addShipsController = (ws: WebSocket, data: string | undefined) => {
   console.log('addShipsController', data);
 
-  const { gameId, indexPlayer, ships } = JSON.parse(data);
+  const { gameId, indexPlayer, ships } = JSON.parse(data!);
 
   const currentGame = getGameById(gameId);
 
@@ -73,6 +74,6 @@ export const addShipsController = (data: string, ws: WebSocket) => {
       );
     });
 
-    sendTurn(gameId, ws);
+    sendTurn(ws, gameId);
   }
 };

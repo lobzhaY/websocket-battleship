@@ -1,4 +1,5 @@
 import { WS_TYPES, ws_id } from '../constants';
+import WebSocket from 'ws';
 
 export type BaseWSType<T> = {
   type: WS_TYPES;

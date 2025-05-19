@@ -3,8 +3,9 @@ import { getGameById, setNewGame } from '../db';
 import { Game } from '../types';
 import { BOT_PREFIX, ws_id, WS_TYPES } from '../constants';
 import { generateRandomShips } from '../utils';
+import { WebSocket } from 'ws';
 
-export const startSinglePlayController = (data: string, ws: WebSocket) => {
+export const startSinglePlayController = (ws: WebSocket) => {
   console.log('startSinglePlayController');
 
   const gameId = randomUUID();
@@ -20,7 +21,7 @@ export const startSinglePlayController = (data: string, ws: WebSocket) => {
 
   (currentGame as Game).players[botPlayerId] = {
     ships: botRandomShips,
-    board
+    board,
   };
 
   ws.send(

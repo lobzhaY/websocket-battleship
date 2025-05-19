@@ -13,6 +13,8 @@ import {
   processAttack,
 } from '../utils';
 import { sendTurn } from './game-controller';
+import { updateWinnersController } from './winners-controller';
+import { WebSocket } from 'ws';
 
 export const feedbackAttack = (
   ws: WebSocket,
@@ -31,8 +33,8 @@ export const feedbackAttack = (
   );
 };
 
-export const setUserAttack = (data: string, ws: WebSocket) => {
-  const { gameId, x, y, indexPlayer } = JSON.parse(data);
+export const setUserAttack = (ws: WebSocket, data: string | undefined) => {
+  const { gameId, x, y, indexPlayer } = JSON.parse(data!);
   const currentGame = getGameById(gameId);
 
   if (!currentGame) {
@@ -57,7 +59,7 @@ export const setUserAttack = (data: string, ws: WebSocket) => {
 
   if (checkAttack === 'miss' || checkAttack === 'killed') {
     changeCurrentPlayer(gameId);
-    sendTurn(gameId, ws);
+    sendTurn(ws, gameId);
 
     if (currentGame.currentPlayerId.startsWith(BOT_PREFIX)) {
       setTimeout(() => {
@@ -78,13 +80,15 @@ export const setUserAttack = (data: string, ws: WebSocket) => {
             id: ws_id,
           })
         );
+
+        updateWinnersController(ws);
       }
     }
   }
 };
 
-export const setRandomAttack = (data: string, ws: WebSocket) => {
-  const { gameId, indexPlayer } = JSON.parse(data);
+export const setRandomAttack = (ws: WebSocket, data: string | undefined) => {
+  const { gameId, indexPlayer } = JSON.parse(data!);
 
   const currentGame = getGameById(gameId);
 
@@ -113,7 +117,7 @@ export const setRandomAttack = (data: string, ws: WebSocket) => {
 
   if (checkAttack === 'miss' || checkAttack === 'killed') {
     changeCurrentPlayer(gameId);
-    sendTurn(gameId, ws);
+    sendTurn(ws, gameId);
 
     if (currentGame.currentPlayerId.startsWith(BOT_PREFIX)) {
       setTimeout(() => {
@@ -134,6 +138,7 @@ export const setRandomAttack = (data: string, ws: WebSocket) => {
             id: ws_id,
           })
         );
+        updateWinnersController(ws);
       }
     }
   }

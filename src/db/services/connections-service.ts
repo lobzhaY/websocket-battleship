@@ -1,5 +1,6 @@
 import { PlayerConnection } from '../../types';
 import { connections } from '../connections';
+import { WebSocket } from 'ws';
 
 export const getConnections = (): PlayerConnection[] => {
   return connections;
@@ -20,4 +21,3 @@ export const getPlayerByRoomId = (
 export const addToConnections = (connection: PlayerConnection): void => {
   connections.push(connection);
 };
-

@@ -1,5 +1,6 @@
 import { getWinners } from '../db';
 import { ws_id, WS_TYPES } from '../constants';
+import { WebSocket } from 'ws';
 
 export const updateWinnersController = (ws: WebSocket) => {
   const winners = getWinners();

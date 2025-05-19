@@ -40,7 +40,7 @@ export const addUserToRoom = (
   indexRoom: string,
   playerId: string | undefined
 ) => {
-   const currentUser = getUserById(playerId!);
+  const currentUser = getUserById(playerId!);
   if (!currentUser) {
     console.log(`User with ID ${playerId} not found`);
     return;

@@ -1,5 +1,5 @@
 import { WS_TYPES, ws_id } from '../constants';
-import { sendTurn } from '../controllers';
+import { sendTurn, updateWinnersController } from '../controllers';
 import { feedbackAttack } from '../controllers/attack-controller';
 import {
   changeCurrentPlayer,
@@ -10,6 +10,7 @@ import {
 import { checkIsGameOver } from './check-is-game-over';
 import { getRandomAttack } from './get-random-attack';
 import { processAttack } from './process-attack';
+import { WebSocket } from 'ws';
 
 export const makeBotAttack = async (
   gameId: string,
@@ -37,7 +38,7 @@ export const makeBotAttack = async (
 
   if (checkAttack === 'miss' || checkAttack === 'killed') {
     changeCurrentPlayer(gameId);
-    sendTurn(gameId, ws);
+    sendTurn(ws, gameId);
 
     if (checkAttack === 'killed') {
       const isGameOver = checkIsGameOver(
@@ -54,6 +55,8 @@ export const makeBotAttack = async (
             id: ws_id,
           })
         );
+
+        updateWinnersController(ws);
       }
     }
   }

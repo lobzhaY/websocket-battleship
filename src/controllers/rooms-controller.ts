@@ -8,6 +8,7 @@ import {
 import { ws_id, WS_TYPES } from '../constants';
 import { randomUUID } from 'node:crypto';
 import { createGameController } from './game-controller';
+import { WebSocket } from 'ws';
 
 export const updateRoomsController = (ws: WebSocket) => {
   const rooms = getRooms();
@@ -23,7 +24,7 @@ export const updateRoomsController = (ws: WebSocket) => {
   console.log(`Rooms update`);
 };
 
-export const createRoomController = (data: string, ws: WebSocket) => {
+export const createRoomController = (ws: WebSocket) => {
   console.log('createRoomController');
   const user = getPlayerBySocket(ws);
   if (!user) {
@@ -40,9 +41,12 @@ export const createRoomController = (data: string, ws: WebSocket) => {
   console.log(`Room "${roomId}" created by player "${user.playerId}"`);
 };
 
-export const addUserToRoomController = (data: string, ws: WebSocket) => {
+export const addUserToRoomController = (
+  ws: WebSocket,
+  data: string | undefined
+) => {
   console.log('addUserToRoom');
-  const { indexRoom } = JSON.parse(data);
+  const { indexRoom } = JSON.parse(data!);
   const { roomUsers } = getRoomById(indexRoom);
   const user = getPlayerBySocket(ws);
 
