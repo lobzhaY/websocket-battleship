@@ -18,4 +18,5 @@ export {
   getGameById,
   setNewGame,
   changeCurrentPlayer,
+  updateWinners,
 } from './services';

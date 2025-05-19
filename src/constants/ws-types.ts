@@ -10,7 +10,7 @@ export enum WS_TYPES {
   ATTACK = 'attack',
   RANDOM_ATTACK = 'randomAttack',
   TURN = 'turn',
-  // FINISH = 'finish',
+  FINISH = 'finish',
   SINGLE_PLAY = 'single_play',
 }
 

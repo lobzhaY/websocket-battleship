@@ -1,6 +1,13 @@
+import { WS_TYPES, ws_id } from '../constants';
 import { sendTurn } from '../controllers';
 import { feedbackAttack } from '../controllers/attack-controller';
-import { changeCurrentPlayer, getGameById } from '../db';
+import {
+  changeCurrentPlayer,
+  getGameById,
+  getPlayerBySocket,
+  updateWinners,
+} from '../db';
+import { checkIsGameOver } from './check-is-game-over';
 import { getRandomAttack } from './get-random-attack';
 import { processAttack } from './process-attack';
 
@@ -31,5 +38,23 @@ export const makeBotAttack = async (
   if (checkAttack === 'miss' || checkAttack === 'killed') {
     changeCurrentPlayer(gameId);
     sendTurn(gameId, ws);
+
+    if (checkAttack === 'killed') {
+      const isGameOver = checkIsGameOver(
+        currentGame!.players[indexPlayer]!.board
+      );
+      if (isGameOver) {
+        const player = getPlayerBySocket(ws);
+        updateWinners(player!.playerId);
+
+        ws.send(
+          JSON.stringify({
+            type: WS_TYPES.FINISH,
+            data: JSON.stringify({ winPlayer: player!.playerId }),
+            id: ws_id,
+          })
+        );
+      }
+    }
   }
 };

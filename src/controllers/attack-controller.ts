@@ -1,7 +1,17 @@
 import { AttackStatus } from '../types';
 import { BOT_PREFIX, ws_id, WS_TYPES } from '../constants';
-import { changeCurrentPlayer, getGameById } from '../db';
-import { getRandomAttack, makeBotAttack, processAttack } from '../utils';
+import {
+  changeCurrentPlayer,
+  getGameById,
+  getPlayerBySocket,
+  updateWinners,
+} from '../db';
+import {
+  checkIsGameOver,
+  getRandomAttack,
+  makeBotAttack,
+  processAttack,
+} from '../utils';
 import { sendTurn } from './game-controller';
 
 export const feedbackAttack = (
@@ -54,6 +64,22 @@ export const setUserAttack = (data: string, ws: WebSocket) => {
         makeBotAttack(gameId, indexPlayer, enemyId, ws);
       }, 500);
     }
+
+    if (checkAttack === 'killed') {
+      const isGameOver = checkIsGameOver(currentGame.players[enemyId!]!.board);
+      if (isGameOver) {
+        const player = getPlayerBySocket(ws);
+        updateWinners(player!.playerId);
+
+        ws.send(
+          JSON.stringify({
+            type: WS_TYPES.FINISH,
+            data: JSON.stringify({ winPlayer: player!.playerId }),
+            id: ws_id,
+          })
+        );
+      }
+    }
   }
 };
 
@@ -93,6 +119,22 @@ export const setRandomAttack = (data: string, ws: WebSocket) => {
       setTimeout(() => {
         makeBotAttack(gameId, indexPlayer, enemyId, ws);
       }, 500);
+    }
+
+    if (checkAttack === 'killed') {
+      const isGameOver = checkIsGameOver(currentGame.players[enemyId!]!.board);
+      if (isGameOver) {
+        const player = getPlayerBySocket(ws);
+        updateWinners(player!.playerId);
+
+        ws.send(
+          JSON.stringify({
+            type: WS_TYPES.FINISH,
+            data: JSON.stringify({ winPlayer: player!.playerId }),
+            id: ws_id,
+          })
+        );
+      }
     }
   }
 };
